@@ -77,9 +77,9 @@ function update(source) {
    links = tree.links(nodes);
 
   // Normalize for fixed-depth.
-  nodes.forEach(function(d) { d.y = d.depth * 100; });
+  nodes.forEach(function(d) { d.y = d.depth * 380; });
 
-  // Declare the nodesâ€¦
+  // Declare the nodes¦
   var node = svg.selectAll("g.node")
    .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
@@ -102,16 +102,16 @@ function update(source) {
    .style("fill-opacity", 1)
    .call(wrap, 300);
 
-  // Declare the linksâ€¦
+  // Declare the links¦
   var link = svg.selectAll("path.link")
    .data(links, function(d) { return d.target.id; });
+
+  
 
   // Enter the links.
   link.enter().insert("path", "g")
    .attr("class", "link")
    .attr("d", diagonal);
-
-
 }
 
 function wrap(text, width) {

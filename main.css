@@ -111,15 +111,14 @@ a:hover {
 text {
   font-size: 18px;
   fill: #fff;
-}
-
-tspan {
-  color: #fff;
+  margin: -100%;
 }
 
 path.link {
   fill: none;
   stroke: #ccc;
   stroke-width: 1.5px;
+  max-width: 100px;
+  overflow: hidden;
 }
 
