@@ -19,9 +19,9 @@
     <script>
       var socket = io();
 
-      // document.onmousewheel = function(e) {
-      //   document.getElementById('svgid').attr('transition', 'translate(' + ~~(e.wheelDelta / 50) + ', 0)');
-      // }
+      document.onmousewheel = function(e) {
+        document.getElementById('svgid').attr('transition', 'translate(' + ~~(e.wheelDelta / 50) + ', 0)');
+      }
 
       function find(data, root) {
         if (root) {
@@ -40,13 +40,14 @@
             }
           }
         }
-      }
+      };
 
       socket.on('data', function(data) {
         var q = find(data, root);
         update(root);
       });
     </script>
+
     <link type='text/css' rel='stylesheet' href='main.css' />
   </head>
 
@@ -87,9 +88,9 @@
         </p>
 
       </div>
-    </div>
 
-        <div id="body"></div>
+
+    <div id="body"></div>
     <script type="text/javascript">
 
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
@@ -189,6 +190,9 @@ function wrap(text, width) {
   });
 }
     </script>
+
+    </div>
+    
     <!-- JavaScript that makes the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
