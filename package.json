@@ -28,7 +28,7 @@
   },
 
   "dependencies": {
-    "socket.io"      : "2.2.3"
+    "socket.io"      : "2.2.3",
     "twitter"        : "1.2.1"
   },
   "devDependencies": {},
