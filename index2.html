@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src='d3.min.js'></script>
+    <script src='socket.io.js'></script>
+    <script>
+      var socket = io();
+
+      document.onmousewheel = function(e) {
+        document.getElementById('svgid').attr('transition', 'translate(' + ~~(e.wheelDelta / 50) + ', 0)');
+      }
+
+      function find(data, root) {
+        if (root) {
+          if (root.id === data.parent.id) {
+            if (root.children) { root.children.push(data); } else { root.children = [data]; }
+            return root;
+          } else {
+            if (root.children) {
+              for (var i=0;i<root.children.length;i++) {
+                var p = find(data, root.children[i]);
+                if (p) { return p; }
+              }
+              return null;
+            } else {
+              return null;
+            }
+          }
+        }
+      }
+
+      socket.on('data', function(data) {
+        var q = find(data, root);
+        update(root);
+      });
+    </script>
+    <link type='text/css' rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+
+<div id="body">
+</div>
+
+    <script type="text/javascript">
+
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+ width = 960 - margin.right - margin.left,
+ height = 500 - margin.top - margin.bottom;
+ 
+var i = 0;
+
+var tree = d3.layout.tree()
+  .size([height, width]);
+
+var diagonal = d3.svg.diagonal()
+ .projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select("body").append("svg")
+ .attr("width", width + margin.right + margin.left)
+ .attr("height", height + margin.top + margin.bottom)
+ .append("g")
+ .attr('id', 'svgid')
+ .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("data.json", function(json) {
+  root = json;
+  root.x0 = 0;
+  root.y0 = 0;
+
+  update(root);
+});
+
+function update(source) {
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse(),
+   links = tree.links(nodes);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) { d.y = d.depth * 100; });
+
+  // Declare the nodesâ€¦
+  var node = svg.selectAll("g.node")
+   .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter the nodes.
+  var nodeEnter = node.enter().append("g")
+   .attr("class", "node")
+   .attr("transform", function(d) { 
+    return "translate(" + d.y + "," + d.x + ")"; });
+
+  nodeEnter.append("circle")
+   .attr("r", 10)
+   .style("fill", "#fff");
+
+  nodeEnter.append("text")
+   .attr("x", function(d) { console.log(d); return 0; })
+   .attr("dy", ".35em")
+   .attr("text-anchor", function(d) { return 'end'; })
+    //    return d.children || d._children ? "end" : "start"; })
+   .text(function(d) { return d.name; })
+   .style("fill-opacity", 1)
+   .call(wrap, 300);
+
+  // Declare the linksâ€¦
+  var link = svg.selectAll("path.link")
+   .data(links, function(d) { return d.target.id; });
+
+  // Enter the links.
+  link.enter().insert("path", "g")
+   .attr("class", "link")
+   .attr("d", diagonal);
+
+
+}
+
+function wrap(text, width) {
+  var things = [];
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        things.push(tspan);
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", lineHeight + dy + "em").text(word);
+      }
+    }
+  });
+}
+    </script>
+  </body>
+</html>
