@@ -1,0 +1,327 @@
+<html><head><meta charset="utf-8">
+<title>Word Tree</title>
+
+<style>
+button {
+  font-size: 14px;
+  background-color: #666;
+  background-image: -moz-linear-gradient(top, rgba(255,255,255,.25), rgba(255,255,255,.11));
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, rgba(255,255,255,.25)),color-stop(1, rgba(255,255,255,.11)));
+  background-image: -webkit-linear-gradient(rgba(255,255,255,.25), rgba(255,255,255,.11));
+  color: #fff;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0 -1px 1px #222;
+  padding: 6px 10px 6px 10px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #222;
+  margin: 0;
+  -moz-box-shadow: 0 1px 3px #999;
+  -webkit-box-shadow: 0 1px 3px #999;
+}
+
+button.first {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+button.last {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+button:hover {
+  background-color: #f60;
+}
+
+svg {
+  overflow: hidden;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Georgia, serif;
+}
+path { fill: none; stroke: #666; stroke-width: .5px; }
+text {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+svg:not(.hover) text:hover, .hover tspan:hover {
+  fill: #f99;
+}
+#header {
+  padding: 10px 20px 10px;
+  height: 50px;
+}
+.grey {
+  background: #f5f5f5;
+  margin: 20px 0;
+  padding: 0;
+  border: solid #ddd 1px;
+  border-left: none;
+  border-right: none;
+}
+.thumb a {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}
+.thumb:hover a {
+  color: #f60;
+}
+#vis {
+  position: absolute;
+  top: 45px;
+  left: 10px;
+  bottom: 0;
+  right: 310px;
+}
+#text {
+  width: 300px;
+  position: absolute;
+  top: 46px;
+  bottom: 0;
+  right: 0;
+  overflow-y: auto;
+  font-family: "Andale Mono", "Courier New", "Courier", monospace;
+}
+#text a { text-decoration: none; color: #000; }
+#text a.highlight { background: #ff9; color: #000; }
+#text a:hover { text-decoration: underline; }
+#text .row { height: 20px; }
+rect {
+  fill: none;
+  stroke: #ddd;
+}
+rect.page {
+  fill: #ff9;
+  stroke: #000;
+  fill-opacity: .7;
+  cursor: move;
+}
+line {
+  stroke: #000;
+}
+
+input {
+  vertical-align: middle;
+}
+
+.label-small, .help {
+  font-size: 10px;
+  line-height: 25px;
+  display: block;
+  color: #999;
+  font-style: italic;
+}
+
+#form-source {
+  display: inline-block;
+}
+
+#form {
+  display: none;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+#logo a {
+  text-decoration: none;
+  color: #000;
+  text-transform: lowercase;
+}
+
+#logo a:hover {
+  color: #f60;
+}
+
+#paste {
+  width: 100%;
+  height: 100px;
+  border: solid #ccc 1px;
+}
+
+h2 {
+  font-weight: 300;
+  font-size: 1.5em;
+}
+
+.copyright {
+  display: none;
+}
+
+.icon path {
+  fill: #000;
+  stroke: none;
+}
+
+.icon {
+  cursor: pointer;
+  margin-top: -3px;
+  float: left;
+}
+
+.icon:hover path {
+  fill: #e60;
+}
+
+#help-window {
+  position: absolute;
+  top: 45px;
+  border-top: solid #ccc 1px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  overflow-y: scroll;
+}
+
+.center {
+  text-align: center;
+}
+
+#logo {
+  margin: 0;
+  font-size: 2em;
+  line-height: 25px;
+  float: left;
+  margin-right: 1em;
+  padding: 0;
+}
+
+
+#logo svg {
+  margin-right: 8px;
+}
+
+.wrapper {
+  width: 800px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+#source, #keyword {
+  width: 300px;
+  margin-top: 0px;
+  box-sizing: border-box;
+  position: relative;
+  padding: 5px 20px 5px 8px;
+  font-size: 12px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+#source:focus, #keyword:focus {
+  border-color: #f60;
+}
+
+.thumb {
+  width: 180px;
+  height: 220px;
+  text-align: center;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.thumb img {
+  width: 180px;
+  border: none;
+}
+
+.clear {
+  clear: both;
+}
+
+#form label {
+  cursor: pointer;
+  color: #333;
+}
+
+#help-left {
+  font-size: 10px;
+  color: #999;
+  font-style: italic;
+  padding: 5px 10px;
+  width: 250px;
+}
+
+</style>
+
+</head><body><div id="header">
+  <div class="wrapper">
+    <h1 id="logo"><a href=".">#TwitterNovel</a></h1>
+    </form>
+  </div>
+</div>
+
+<div id="vis"><svg width="1029" height="450"><defs><clipPath id="clip"><rect width="998.5" height="250"></rect></clipPath></defs><g transform="translate(0,20)" clip-path="url(#clip)"><text font-size="53" dy=".3em" x="0" y="115"><tspan>How</tspan><tspan>&nbsp;many</tspan></text><text font-size="15" dy=".3em" x="304.41552734375" y="140.55555555555557"><tspan>roads</tspan><tspan>&nbsp;must</tspan><tspan>&nbsp;a</tspan><tspan>&nbsp;man</tspan><tspan>&nbsp;walk</tspan><tspan>&nbsp;down</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;you</tspan><tspan>&nbsp;call</tspan><tspan>&nbsp;him</tspan><tspan>&nbsp;a</tspan><tspan>&nbsp;man</tspan><tspan>?</tspan><tspan>&nbsp;Yes</tspan><tspan>,</tspan><tspan>&nbsp;’</tspan><tspan>n</tspan><tspan>’</tspan><tspan>&nbsp;how</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;seas</tspan><tspan>&nbsp;must</tspan><tspan>&nbsp;a</tspan><tspan>&nbsp;white</tspan><tspan>&nbsp;dove</tspan><tspan>&nbsp;sail</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;she</tspan><tspan>&nbsp;sleeps</tspan><tspan>&nbsp;in</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;sand</tspan><tspan>?</tspan></text><text font-size="15" dy=".3em" x="304.41552734375" y="166.11111111111111"><tspan>seas</tspan><tspan>&nbsp;must</tspan><tspan>&nbsp;a</tspan><tspan>&nbsp;white</tspan><tspan>&nbsp;dove</tspan><tspan>&nbsp;sail</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;she</tspan><tspan>&nbsp;sleeps</tspan><tspan>&nbsp;in</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;sand</tspan><tspan>?</tspan><tspan>&nbsp;Yes</tspan><tspan>,</tspan><tspan>&nbsp;’</tspan><tspan>n</tspan><tspan>’</tspan><tspan>&nbsp;how</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;times</tspan><tspan>&nbsp;must</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;cannonballs</tspan><tspan>&nbsp;fly</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;they</tspan><tspan>’</tspan><tspan>re</tspan><tspan>&nbsp;forever</tspan><tspan>&nbsp;banned</tspan><tspan>?</tspan></text><text font-size="41" dy=".3em" x="304.41552734375" y="38.333333333333336"><tspan>times</tspan></text><text font-size="37" dy=".3em" x="454.2328338623047" y="25.555555555555557"><tspan>must</tspan></text><text font-size="15" dy=".3em" x="586.8685760498047" y="12.777777777777779"><tspan>the</tspan><tspan>&nbsp;cannonballs</tspan><tspan>&nbsp;fly</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;they</tspan><tspan>’</tspan><tspan>re</tspan><tspan>&nbsp;forever</tspan><tspan>&nbsp;banned</tspan><tspan>?</tspan><tspan>&nbsp;The</tspan><tspan>&nbsp;answer</tspan><tspan>,</tspan><tspan>&nbsp;my</tspan><tspan>&nbsp;friend</tspan><tspan>,</tspan><tspan>&nbsp;is</tspan><tspan>&nbsp;blowin</tspan><tspan>’</tspan><tspan>&nbsp;in</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;wind</tspan><tspan>&nbsp;The</tspan><tspan>&nbsp;answer</tspan><tspan>&nbsp;is</tspan><tspan>&nbsp;blowin</tspan><tspan>’</tspan><tspan>&nbsp;in</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;wind</tspan><tspan>&nbsp;How</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;years</tspan><tspan>&nbsp;can</tspan><tspan>&nbsp;a</tspan><tspan>&nbsp;mountain</tspan><tspan>&nbsp;exist</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;it</tspan><tspan>’</tspan><tspan>s</tspan><tspan>&nbsp;washed</tspan><tspan>&nbsp;to</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;sea</tspan><tspan>?</tspan></text><text font-size="15" dy=".3em" x="586.8685760498047" y="38.333333333333336"><tspan>a</tspan><tspan>&nbsp;man</tspan><tspan>&nbsp;look</tspan><tspan>&nbsp;up</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;he</tspan><tspan>&nbsp;can</tspan><tspan>&nbsp;see</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;sky</tspan><tspan>?</tspan><tspan>&nbsp;Yes</tspan><tspan>,</tspan><tspan>&nbsp;’</tspan><tspan>n</tspan><tspan>’</tspan><tspan>&nbsp;how</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;ears</tspan><tspan>&nbsp;must</tspan><tspan>&nbsp;one</tspan><tspan>&nbsp;man</tspan><tspan>&nbsp;have</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;he</tspan><tspan>&nbsp;can</tspan><tspan>&nbsp;hear</tspan><tspan>&nbsp;people</tspan><tspan>&nbsp;cry</tspan><tspan>?</tspan></text><text font-size="15" dy=".3em" x="454.2328338623047" y="63.888888888888886"><tspan>can</tspan><tspan>&nbsp;a</tspan><tspan>&nbsp;man</tspan><tspan>&nbsp;turn</tspan><tspan>&nbsp;his</tspan><tspan>&nbsp;head</tspan><tspan>&nbsp;Pretending</tspan><tspan>&nbsp;he</tspan><tspan>&nbsp;just</tspan><tspan>&nbsp;doesn</tspan><tspan>’</tspan><tspan>t</tspan><tspan>&nbsp;see</tspan><tspan>?</tspan><tspan>&nbsp;The</tspan><tspan>&nbsp;answer</tspan><tspan>,</tspan><tspan>&nbsp;my</tspan><tspan>&nbsp;friend</tspan><tspan>,</tspan><tspan>&nbsp;is</tspan><tspan>&nbsp;blowin</tspan><tspan>’</tspan><tspan>&nbsp;in</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;wind</tspan><tspan>&nbsp;The</tspan><tspan>&nbsp;answer</tspan><tspan>&nbsp;is</tspan><tspan>&nbsp;blowin</tspan><tspan>’</tspan><tspan>&nbsp;in</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;wind</tspan><tspan>&nbsp;How</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;times</tspan><tspan>&nbsp;must</tspan><tspan>&nbsp;a</tspan><tspan>&nbsp;man</tspan><tspan>&nbsp;look</tspan><tspan>&nbsp;up</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;he</tspan><tspan>&nbsp;can</tspan><tspan>&nbsp;see</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;sky</tspan><tspan>?</tspan></text><text font-size="37" dy=".3em" x="304.41552734375" y="102.22222222222223"><tspan>years</tspan><tspan>&nbsp;can</tspan></text><text font-size="15" dy=".3em" x="506.53466796875" y="89.44444444444446"><tspan>a</tspan><tspan>&nbsp;mountain</tspan><tspan>&nbsp;exist</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;it</tspan><tspan>’</tspan><tspan>s</tspan><tspan>&nbsp;washed</tspan><tspan>&nbsp;to</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;sea</tspan><tspan>?</tspan><tspan>&nbsp;Yes</tspan><tspan>,</tspan><tspan>&nbsp;’</tspan><tspan>n</tspan><tspan>’</tspan><tspan>&nbsp;how</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;years</tspan><tspan>&nbsp;can</tspan><tspan>&nbsp;some</tspan><tspan>&nbsp;people</tspan><tspan>&nbsp;exist</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;they</tspan><tspan>’</tspan><tspan>re</tspan><tspan>&nbsp;allowed</tspan><tspan>&nbsp;to</tspan><tspan>&nbsp;be</tspan><tspan>&nbsp;free</tspan><tspan>?</tspan></text><text font-size="15" dy=".3em" x="506.53466796875" y="115"><tspan>some</tspan><tspan>&nbsp;people</tspan><tspan>&nbsp;exist</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;they</tspan><tspan>’</tspan><tspan>re</tspan><tspan>&nbsp;allowed</tspan><tspan>&nbsp;to</tspan><tspan>&nbsp;be</tspan><tspan>&nbsp;free</tspan><tspan>?</tspan><tspan>&nbsp;Yes</tspan><tspan>,</tspan><tspan>&nbsp;’</tspan><tspan>n</tspan><tspan>’</tspan><tspan>&nbsp;how</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;times</tspan><tspan>&nbsp;can</tspan><tspan>&nbsp;a</tspan><tspan>&nbsp;man</tspan><tspan>&nbsp;turn</tspan><tspan>&nbsp;his</tspan><tspan>&nbsp;head</tspan><tspan>&nbsp;Pretending</tspan><tspan>&nbsp;he</tspan><tspan>&nbsp;just</tspan><tspan>&nbsp;doesn</tspan><tspan>’</tspan><tspan>t</tspan><tspan>&nbsp;see</tspan><tspan>?</tspan></text><text font-size="15" dy=".3em" x="304.41552734375" y="191.66666666666669"><tspan>ears</tspan><tspan>&nbsp;must</tspan><tspan>&nbsp;one</tspan><tspan>&nbsp;man</tspan><tspan>&nbsp;have</tspan><tspan>&nbsp;Before</tspan><tspan>&nbsp;he</tspan><tspan>&nbsp;can</tspan><tspan>&nbsp;hear</tspan><tspan>&nbsp;people</tspan><tspan>&nbsp;cry</tspan><tspan>?</tspan><tspan>&nbsp;Yes</tspan><tspan>,</tspan><tspan>&nbsp;’</tspan><tspan>n</tspan><tspan>’</tspan><tspan>&nbsp;how</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;deaths</tspan><tspan>&nbsp;will</tspan><tspan>&nbsp;it</tspan><tspan>&nbsp;take</tspan><tspan>&nbsp;till</tspan><tspan>&nbsp;he</tspan><tspan>&nbsp;knows</tspan><tspan>&nbsp;That</tspan><tspan>&nbsp;too</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;people</tspan><tspan>&nbsp;have</tspan><tspan>&nbsp;died</tspan><tspan>?</tspan></text><text font-size="15" dy=".3em" x="304.41552734375" y="217.22222222222223"><tspan>deaths</tspan><tspan>&nbsp;will</tspan><tspan>&nbsp;it</tspan><tspan>&nbsp;take</tspan><tspan>&nbsp;till</tspan><tspan>&nbsp;he</tspan><tspan>&nbsp;knows</tspan><tspan>&nbsp;That</tspan><tspan>&nbsp;too</tspan><tspan>&nbsp;many</tspan><tspan>&nbsp;people</tspan><tspan>&nbsp;have</tspan><tspan>&nbsp;died</tspan><tspan>?</tspan><tspan>&nbsp;The</tspan><tspan>&nbsp;answer</tspan><tspan>,</tspan><tspan>&nbsp;my</tspan><tspan>&nbsp;friend</tspan><tspan>,</tspan><tspan>&nbsp;is</tspan><tspan>&nbsp;blowin</tspan><tspan>’</tspan><tspan>&nbsp;in</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;wind</tspan><tspan>&nbsp;The</tspan><tspan>&nbsp;answer</tspan><tspan>&nbsp;is</tspan><tspan>&nbsp;blowin</tspan><tspan>’</tspan><tspan>&nbsp;in</tspan><tspan>&nbsp;the</tspan><tspan>&nbsp;wind</tspan></text><path class="link" d="M259.41552734375,115C279.41552734375,115 279.41552734375,38.333333333333336 299.41552734375,38.333333333333336"></path><path class="link" d="M259.41552734375,115C279.41552734375,115 279.41552734375,102.22222222222223 299.41552734375,102.22222222222223"></path><path class="link" d="M259.41552734375,115C279.41552734375,115 279.41552734375,140.55555555555557 299.41552734375,140.55555555555557"></path><path class="link" d="M259.41552734375,115C279.41552734375,115 279.41552734375,166.11111111111111 299.41552734375,166.11111111111111"></path><path class="link" d="M259.41552734375,115C279.41552734375,115 279.41552734375,191.66666666666669 299.41552734375,191.66666666666669"></path><path class="link" d="M259.41552734375,115C279.41552734375,115 279.41552734375,217.22222222222223 299.41552734375,217.22222222222223"></path><path class="link" d="M409.2328338623047,38.333333333333336C429.2328338623047,38.333333333333336 429.2328338623047,25.555555555555557 449.2328338623047,25.555555555555557"></path><path class="link" d="M409.2328338623047,38.333333333333336C429.2328338623047,38.333333333333336 429.2328338623047,63.888888888888886 449.2328338623047,63.888888888888886"></path><path class="link" d="M541.8685760498047,25.555555555555557C561.8685760498047,25.555555555555557 561.8685760498047,12.777777777777779 581.8685760498047,12.777777777777779"></path><path class="link" d="M541.8685760498047,25.555555555555557C561.8685760498047,25.555555555555557 561.8685760498047,38.333333333333336 581.8685760498047,38.333333333333336"></path><path class="link" d="M461.53466796875,102.22222222222223C481.53466796875,102.22222222222223 481.53466796875,89.44444444444446 501.53466796875,89.44444444444446"></path><path class="link" d="M461.53466796875,102.22222222222223C481.53466796875,102.22222222222223 481.53466796875,115 501.53466796875,115"></path></g><g transform="translate(1008.5,.5)"><line x2="20" transform="translate(0,32.89473684210526)"></line><line x2="20" transform="translate(0,32.89473684210526)"></line><line x2="20" transform="translate(0,32.89473684210526)"></line><line x2="20" transform="translate(0,32.89473684210526)"></line><line x2="20" transform="translate(0,39.473684210526315)"></line><line x2="20" transform="translate(0,39.473684210526315)"></line><line x2="20" transform="translate(0,39.473684210526315)"></line><line x2="20" transform="translate(0,157.89473684210526)"></line><line x2="20" transform="translate(0,157.89473684210526)"></line><line x2="20" transform="translate(0,171.05263157894737)"></line><line x2="20" transform="translate(0,171.05263157894737)"></line><line x2="20" transform="translate(0,171.05263157894737)"></line><line x2="20" transform="translate(0,171.05263157894737)"></line><line x2="20" transform="translate(0,171.05263157894737)"></line><line x2="20" transform="translate(0,118.42105263157895)"></line><line x2="20" transform="translate(0,118.42105263157895)"></line><line x2="20" transform="translate(0,125)"></line><line x2="20" transform="translate(0,125)"></line><line x2="20" transform="translate(0,125)"></line><line x2="20" transform="translate(0,125)"></line><line x2="20" transform="translate(0,72.36842105263158)"></line><line x2="20" transform="translate(0,72.36842105263158)"></line><line x2="20" transform="translate(0,85.52631578947368)"></line><line x2="20" transform="translate(0,85.52631578947368)"></line><line x2="20" transform="translate(0,85.52631578947368)"></line><line x2="20" transform="translate(0,85.52631578947368)"></line><line x2="20" transform="translate(0,85.52631578947368)"></line><line x2="20" transform="translate(0,98.6842105263158)"></line><line x2="20" transform="translate(0,98.6842105263158)"></line><line x2="20" transform="translate(0,105.26315789473684)"></line><line x2="20" transform="translate(0,105.26315789473684)"></line><line x2="20" transform="translate(0,105.26315789473684)"></line><line x2="20" transform="translate(0,105.26315789473684)"></line><line x2="20" transform="translate(0,105.26315789473684)"></line><line x2="20" transform="translate(0,0)"></line><line x2="20" transform="translate(0,0)"></line><line x2="20" transform="translate(0,0)"></line><line x2="20" transform="translate(0,13.157894736842104)"></line><line x2="20" transform="translate(0,13.157894736842104)"></line><line x2="20" transform="translate(0,13.157894736842104)"></line><line x2="20" transform="translate(0,13.157894736842104)"></line><line x2="20" transform="translate(0,19.736842105263158)"></line><line x2="20" transform="translate(0,184.21052631578948)"></line><line x2="20" transform="translate(0,184.21052631578948)"></line><line x2="20" transform="translate(0,184.21052631578948)"></line><line x2="20" transform="translate(0,184.21052631578948)"></line><line x2="20" transform="translate(0,190.78947368421052)"></line><line x2="20" transform="translate(0,203.94736842105263)"></line><line x2="20" transform="translate(0,203.94736842105263)"></line><line x2="20" transform="translate(0,203.94736842105263)"></line><line x2="20" transform="translate(0,203.94736842105263)"></line><line x2="20" transform="translate(0,210.52631578947367)"></line><rect class="frame" width="20" height="249"></rect><rect class="page" width="20" height="81.23684210526316" y="19.736842105263158"></rect></g></svg></div>
+<div id="text"><div class="before" style="height: 60px;"></div><div class="current"><div class="row"> <a href="#seas" class="highlight">seas</a> <a href="#must" class="highlight">must</a> <a href="#a" class="highlight">a</a> <a href="#white" class="highlight">white</a> <a href="#dove" class="highlight">dove</a> <a href="#sail" class="highlight">sail</a></div><div class="row"> <a href="#Before" class="highlight">Before</a> <a href="#she" class="highlight">she</a> <a href="#sleeps" class="highlight">sleeps</a> <a href="#in" class="highlight">in</a> <a href="#the" class="highlight">the</a></div><div class="row"> <a href="#sand" class="highlight">sand</a><a href="#%3F" class="highlight">?</a> <a href="#Yes" class="highlight">Yes</a><a href="#%2C" class="highlight">,</a> <a href="#%E2%80%99" class="highlight">’</a><a href="#n" class="highlight">n</a><a href="#%E2%80%99" class="highlight">’</a> <a href="#how" class="highlight">how</a> <a href="#many" class="highlight">many</a></div><div class="row"> <a href="#times" class="highlight">times</a> <a href="#must" class="highlight">must</a> <a href="#the" class="highlight">the</a> <a href="#cannonballs" class="highlight">cannonballs</a></div><div class="row"> <a href="#fly" class="highlight">fly</a> <a href="#Before" class="highlight">Before</a> <a href="#they" class="highlight">they</a><a href="#%E2%80%99" class="highlight">’</a><a href="#re" class="highlight">re</a> <a href="#forever" class="highlight">forever</a></div><div class="row"> <a href="#banned" class="highlight">banned</a><a href="#%3F" class="highlight">?</a> <a href="#The" class="highlight">The</a> <a href="#answer" class="highlight">answer</a><a href="#%2C" class="highlight">,</a> <a href="#my" class="highlight">my</a></div><div class="row"> <a href="#friend" class="highlight">friend</a><a href="#%2C" class="highlight">,</a> <a href="#is" class="highlight">is</a> <a href="#blowin" class="highlight">blowin</a><a href="#%E2%80%99" class="highlight">’</a> <a href="#in" class="highlight">in</a> <a href="#the" class="highlight">the</a></div><div class="row"> <a href="#wind" class="highlight">wind</a> <a href="#The" class="highlight">The</a> <a href="#answer" class="highlight">answer</a> <a href="#is" class="highlight">is</a> <a href="#blowin" class="highlight">blowin</a><a href="#%E2%80%99" class="highlight">’</a></div><div class="row"> <a href="#in" class="highlight">in</a> <a href="#the" class="highlight">the</a> <a href="#wind" class="highlight">wind</a></div><div class="row"></div><div class="row"> <a href="#How" class="highlight">How</a> <a href="#many" class="highlight">many</a> <a href="#years" class="highlight">years</a> <a href="#can" class="highlight">can</a> <a href="#a" class="highlight">a</a></div><div class="row"> <a href="#mountain" class="highlight">mountain</a> <a href="#exist" class="highlight">exist</a> <a href="#Before" class="highlight">Before</a> <a href="#it" class="highlight">it</a><a href="#%E2%80%99" class="highlight">’</a><a href="#s" class="highlight">s</a></div><div class="row"> <a href="#washed" class="highlight">washed</a> <a href="#to" class="highlight">to</a> <a href="#the" class="highlight">the</a> <a href="#sea" class="highlight">sea</a><a href="#%3F" class="highlight">?</a> <a href="#Yes" class="highlight">Yes</a><a href="#%2C" class="highlight">,</a> <a href="#%E2%80%99" class="highlight">’</a><a href="#n" class="highlight">n</a><a href="#%E2%80%99" class="highlight">’</a></div><div class="row"> <a href="#how" class="highlight">how</a> <a href="#many" class="highlight">many</a> <a href="#years" class="highlight">years</a> <a href="#can" class="highlight">can</a> <a href="#some" class="highlight">some</a></div></div><div class="after" style="height: 420px;"></div></div>
+<div id="heat"></div>
+
+<div class="clear"></div>
+
+<div id="help-window" style="display: none;">
+  <div class="help-wrapper">
+    <div id="examples" class="wrapper">
+      <div class="thumb"><a href="./?source=obama.inauguration.2013.txt&amp;prefix=We"><img src="examples/1.thumb.png"></a><a href="./?source=obama.inauguration.2013.txt&amp;prefix=We">Obama’s Inauguration Speech</a></div>
+      <div class="thumb"><a href="./?source=cat-in-the-hat.txt&amp;prefix=Thing"><img src="examples/2.thumb.png"></a><a href="./?source=cat-in-the-hat.txt&amp;prefix=Thing">The Cat in the Hat</a></div>
+      <div class="thumb"><a href="./?source=alice-in-wonderland.txt&amp;prefix=cried"><img src="examples/3.thumb.png"></a><a href="./?source=alice-in-wonderland.txt&amp;prefix=cried">Alice in Wonderland</a></div>
+      <div class="thumb"><a href="./?source=blowin.in.the.wind.txt&amp;prefix=How"><img src="examples/4.thumb.png"></a><a href="./?source=blowin.in.the.wind.txt&amp;prefix=How">Bob Dylan’s Blowin’ in the Wind</a></div>
+      <div class="thumb"><a href="./?source=obama-war-speech.txt&amp;prefix=Iraq&amp;reverse=1"><img src="examples/5.thumb.png"></a><a href="./?source=obama-war-speech.txt&amp;prefix=Iraq&amp;reverse=1">Obama War Speech</a></div>
+      <div class="thumb"><a href="./?source=steve-jobs-commencement.txt&amp;prefix=life&amp;reverse=1"><img src="examples/6.thumb.png"></a><a href="./?source=steve-jobs-commencement.txt&amp;prefix=life&amp;reverse=1">Steve Jobs Stanford Commencement Speech</a></div>
+      <div class="thumb"><a href="./?source=%40jasondavies&amp;prefix=%40&amp;phrase-line=1"><img src="examples/7.thumb.png"></a><a href="./?source=%40jasondavies&amp;prefix=%40&amp;phrase-line=1">@jasondavies</a></div>
+      <div class="thumb"><a href="./?source=flickr-comments.txt&amp;prefix=Thank%20you"><img src="examples/8.thumb.png"></a><a href="./?source=flickr-comments.txt&amp;prefix=Thank%20you">Flickr Comments</a></div>
+      <div class="clear"></div>
+    <div class="clear"></div></div>
+  </div>
+
+  <div class="help-wrapper grey">
+    <div class="wrapper">
+      <h2>Paste Text</h2>
+      <p><textarea id="paste"></textarea>
+      </p><p><button id="paste-go" class="first last">Generate WordTree!</button>
+      <label for="paste-save"><input type="checkbox" id="paste-save" checked=""> Shareable</label>
+      <span style="color: #999; font-style: italic">(saves your text on the server)</span>
+    </p></div>
+  </div>
+
+  <div class="wrapper">
+    <h2>Bookmarklet</h2>
+    <p style="margin-bottom: 1.5em">Drag this bookmarklet to your Bookmarks Bar and click to instantly turn the current page into a word tree!
+    </p><p><a href='javascript:location.href="http://www.jasondavies.com/wordtree/?source="+encodeURIComponent(location.href)' style="background: #f60; padding: 10px; border-radius: 8px; color: #fff">Word Tree</a>
+  </p></div>
+
+  <div class="help-wrapper grey credits">
+    <div class="wrapper">
+      <h2>Credits</h2>
+      <p>The <a href="http://hint.fm/projects/wordtree/">Word Tree visualisation technique</a> was invented by the incredible duo Martin Wattenberg and Fernanda Viégas in 2007.  Read <a href="http://hint.fm/papers/wordtree_final2.pdf">their paper</a> for the full details.
+      </p><p>Be sure to also check out various text analysis projects by <a href="http://moebio.com/">Santiago Ortiz</a>.
+      </p><p>Created by <a href="http://www.jasondavies.com/">Jason Davies</a>.  Thanks to <a href="http://bost.ocks.org/mike">Mike Bostock</a> for comments and suggestions.
+    </p></div>
+  </div>
+</div>
+
+<script src="js/d3.min.js"></script>
+<script src="js/unicode.js"></script>
+<script src="js/longscroll.js"></script>
+<script src="js/wordtree.js"></script>
+</body><iframe allowtransparency="true" frameborder="0" id="abs-top-frame" src="chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/html/top.html?1425166980720#minimized" style="position: fixed; z-index: 4294967295; overflow: hidden; top: 0px; left: 0px; right: 0px; width: 138px; height: 13px; max-height: none; min-height: 0px; margin: 0px auto; padding: 0px; border: 0px; display: block; background-color: transparent;"></iframe></html>

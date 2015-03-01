@@ -1,0 +1,32 @@
+body {
+  	padding-top: 50px;
+  	background-color: black;
+  	background-image:url('http://p1.pichost.me/i/52/1758783.jpg');
+}
+
+.starter-template {
+	padding: 40px 15px;
+  	text-align: center;
+}
+
+h1 {
+	font-family: Copperplate;
+	color: #b4adad;
+	font-weight: bold;
+}
+
+p {
+	font-family: Copperplate;
+	color: #b4adad;
+	font-size: 14px;
+}
+
+#header {
+	font-family: Copperplate;
+	font-size: 18px;
+	left: 850px;
+}
+
+#rules {
+	font-size: 18px;
+}
