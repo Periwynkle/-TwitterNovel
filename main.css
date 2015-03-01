@@ -114,6 +114,7 @@ text {
   font-size: 18px;
   fill: #fff;
   margin: -100%;
+  viewport-fill: #000000;
 }
 
 path.link {

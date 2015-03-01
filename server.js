@@ -15,7 +15,7 @@ var client = new Twitter({
   access_token_secret: 'AgqeENKSkFQRnpKO0re3iTn4NdNJ1HBTAGECaWNk11vc1'
 });
 
-client.stream('statuses/filter', {track: '#htn #anameg1u'}, function(stream) {
+client.stream('statuses/filter', {track: '#htn #samplestory'}, function(stream) {
   stream.on('data', function(tweet) {
     if (_t.hasOwnProperty(tweet.in_reply_to_status_id_str)) {
       tweet.text = clean(tweet.text);
@@ -48,7 +48,7 @@ var root;
 
 client.get('statuses/user_timeline', {screen_name: 'CarolHackLondon'}, function(error, tweets) {
   for (var i=0;i<tweets.length;i++) {
-    if (tweets[i].text.indexOf('#htn #anameg1u') > -1) {
+    if (tweets[i].text.indexOf('#htn #samplestory') > -1) {
       tweets[i].text = clean('@' + tweets[i].text).string;
       if (!root) { root = tweets[i]; }
       tweets[i].children = [];
