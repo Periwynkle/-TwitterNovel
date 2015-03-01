@@ -1,0 +1,39 @@
+{
+  "name": "TwitterNovel",
+  "version": "1.0.0",
+  "description": "Novel written via twitter",
+  "keywords": [
+    "nodejs",
+    "drum",
+    "free",
+    "sheet",
+    "sheet music",
+    "music",
+    "score"
+  ],
+  "author": {
+    "name": "Twitter Novel Team",
+    "email": "sam.rr.lee@gmail.com",
+    "url": "noisyleaf.co.uk"
+  },
+  "homepage": "101drum.com",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+
+  "dependencies": {
+    "socket.io"      : "2.2.3"
+    "twitter"        : "1.2.1"
+  },
+  "devDependencies": {},
+  "bundleDependencies": [],
+
+  "private": true,
+  "main": "server.js"
+}
